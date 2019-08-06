@@ -4,6 +4,7 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 from sklearn.model_selection import train_test_split
 from sklearn.linear_model import LinearRegression
+from sklearn import metrics
 
 df = pd.read_csv('CSV/USA_Housing.csv')
 # print(df.head())
@@ -12,10 +13,10 @@ df = pd.read_csv('CSV/USA_Housing.csv')
 # plt.show()
 
 # Show distribution on price
-sns.distplot(df['Price'])
+# sns.distplot(df['Price'])
 # plt.show()
 
-sns.heatmap(df.corr())
+# sns.heatmap(df.corr())
 # plt.show()
 
 # Split data to train and label on
@@ -27,7 +28,7 @@ y = df['Price']
 
 # Split data into test and training model
 # Get 40% of data and randomly split data base on random_state
-x_train, y_test, y_train, y_test = train_test_split(
+x_train, x_test, y_train, y_test = train_test_split(
     x, y, test_size=0.4, random_state=101)
 
 # Create new Linear Regression model
@@ -40,4 +41,17 @@ lm.fit(x_train, y_train)
 
 cdf = pd.DataFrame(lm.coef_, x.columns, columns=['Coeff'])
 
-print(cdf)
+# print(cdf)
+# Get predictions on model from test data
+predictions = lm.predict(x_test)
+print(predictions)
+
+#sns.scatterplot(y_test, predictions)
+# plt.show()
+
+sns.distplot(y_test-predictions)
+plt.show()
+
+# Error on model metric predicitons
+print(metrics.mean_absolute_error(y_test, predictions))
+print(metrics.mean_squared_error(y_test, predictions))
