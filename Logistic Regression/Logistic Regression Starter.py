@@ -2,6 +2,10 @@ import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
 import seaborn as sns
+from sklearn.model_selection import train_test_split
+from sklearn.linear_model import LogisticRegression
+from sklearn.metrics import classification_report
+from sklearn.metrics import confusion_matrix
 
 train = pd.read_csv('CSV/titanic_train.csv')
 
@@ -82,3 +86,20 @@ print(train.head())
 train.drop(['PassengerId', 'Sex', 'Embarked',
             'Name', 'Ticket'], axis=1, inplace=True)
 print(train.head())
+
+x = train.drop('Survived', axis=1)
+y = train['Survived']
+
+# Random state gurantees consistent returned values
+x_train, x_test, y_train, y_test = train_test_split(
+    x, y, test_size=0.3, random_state=101)
+
+# Fit for Logistic Regression model
+logmodel = LogisticRegression()
+logmodel.fit(x_train, y_train)
+
+# Predictions
+predictions = logmodel.predict(x_test)
+
+print(classification_report(y_test, predictions))
+print(confusion_matrix(y_test, predictions))
