@@ -30,3 +30,29 @@ sns.distplot(train['Age'].dropna(), kde=False, bins=30)
 # See who were traveling with another person (sibling or spouse), by count, on the ship
 sns.countplot(x='SibSp', data=train)
 # plt.show()
+
+plt.figure(figsize=(10, 7))
+sns.boxplot(x='Pclass', y='Age', data=train)
+# plt.show()
+
+# Use average of Age for each class for train, if value is null for data point
+
+
+def impute_age(cols):
+    Age = cols[0]
+    Pclass = cols[1]
+
+    if pd.isnull(Age):
+        if Pclass == 1:
+            return 37
+        elif Pclass == 2:
+            return 29
+        else:
+            return 24
+    else:
+        return Age
+
+
+train['Age'] = train[['Age', 'Pclass']].apply(impute_age, axis=1)
+sns.heatmap(train.isnull(), yticklabels=False, cbar=False, cmap='viridis')
+plt.show()
