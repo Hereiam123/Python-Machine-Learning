@@ -4,6 +4,7 @@ import matplotlib.pyplot as plt
 import pandas as pd
 import nltk
 from nltk.corpus import stopwords
+from sklearn.feature_extraction.text import CountVectorizer
 
 # nltk.download('stopwords')
 
@@ -70,4 +71,23 @@ def text_process(mess):
     return [word for word in no_punctuation.split() if word.lower() not in stopwords.words('english')]
 
 
-print(messages['message'].head(5).apply(text_process))
+# print(messages['message'].head(5).apply(text_process))
+
+# Transform into array of occurrences for each word
+# and how often it appears in a document
+bow_transformer = CountVectorizer(
+    analyzer=text_process).fit(messages['message'])
+
+# print(len(bow_transformer.vocabulary_))
+
+mess4 = messages['message'][3]
+
+# print(mess4)
+
+# Get unique words in message selection
+bow4 = bow_transformer.transform([mess4])
+
+# print(bow4)
+# print(bow4.shape)
+
+# print(bow_transformer.get_feature_names()[4068])
