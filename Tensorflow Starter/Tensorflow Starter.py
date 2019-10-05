@@ -2,14 +2,14 @@ import tensorflow.compat.v1 as tf
 import numpy as np
 tf.disable_v2_behavior()
 
-hello = tf.constant('Hello World')
+#hello = tf.constant('Hello World')
 
 # Tensor flow object
-print(type(hello))
+# print(type(hello))
 
-sess = tf.Session()
+#sess = tf.Session()
 
-sess.run(hello)
+# sess.run(hello)
 
 # Operations
 
@@ -37,3 +37,12 @@ with tf.Session() as sess:
     print('multiplication', sess.run(mul, feed_dict=d))
 
 a = np.array([[5.0, 5.0]])
+b = np.array([[2.0], [2.0]])
+
+matrix1 = tf.constant(a)
+matrix2 = tf.constant(b)
+
+matrix_multi = tf.matmul(matrix1, matrix2)
+with tf.Session() as sess:
+    result = sess.run(matrix_multi)
+    print(result)
