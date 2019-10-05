@@ -15,6 +15,7 @@ matplotlib = "*"
 seaborn = "*"
 cufflinks = "*"
 nltk = "*"
+tensorflow = "==1.10"
 
 [requires]
 python_version = "3.7"
